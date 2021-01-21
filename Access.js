@@ -3,10 +3,11 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { Dimensions, StyleSheet, ScrollView } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 const { Block, Card } = require('galio-framework');
 
 const { width } = Dimensions.get('screen');
-
+// configured by backend
 const cards = [
   {
     id: 1,
@@ -38,25 +39,32 @@ const cards = [
   },
 ];
 
+/*componentDidMount(){
+  backend calls for payload
+} */
+
 class Access extends React.Component {
   render() {
+    const { navigation } = this.props;
     return (
       <ScrollView contentContainerStyle={styles.cards} backgroundColor="white">
         <Block flex space="between">
+        <TouchableOpacity onPress={() => navigation.navigate('Details')}>
           {cards && cards.map((card, id) => (
-            <Card
-              key={`card-${id}`}
-              flex
-              borderless
-              shadowColor={'black'}
-              style={styles.card}
-              title={card.title}
-              caption={card.caption}
-              location={card.location}
-              locationColor={card.status ? 'green' : 'red'}
-            >
-            </Card>
+              <Card
+                key={`card-${id}`}
+                flex
+                borderless
+                shadowColor={'black'}
+                style={styles.card}
+                title={card.title}
+                caption={card.caption}
+                location={card.location}
+                locationColor={card.status ? 'green' : 'red'}
+              >
+              </Card>
           ))}
+          </TouchableOpacity>
         </Block>
       </ScrollView>
     );
