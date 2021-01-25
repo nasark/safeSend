@@ -1,9 +1,6 @@
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { Dimensions, StyleSheet, ScrollView } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Dimensions, StyleSheet, ScrollView, Pressable } from 'react-native';
 const { Block, Card } = require('galio-framework');
 
 const { width } = Dimensions.get('screen');
@@ -48,11 +45,10 @@ class Access extends React.Component {
     const { navigation } = this.props;
     return (
       <ScrollView contentContainerStyle={styles.cards} backgroundColor="white">
-        <Block flex space="between">
-        <TouchableOpacity onPress={() => navigation.navigate('Details')}>
-          {cards && cards.map((card, id) => (
+        {cards && cards.map(card => (
+          <Block flex space="between" key={`card-${card.id}`}>
+            <Pressable onPress={() => navigation.navigate('Details', card)}>
               <Card
-                key={`card-${id}`}
                 flex
                 borderless
                 shadowColor={'black'}
@@ -61,11 +57,10 @@ class Access extends React.Component {
                 caption={card.caption}
                 location={card.location}
                 locationColor={card.status ? 'green' : 'red'}
-              >
-              </Card>
-          ))}
-          </TouchableOpacity>
-        </Block>
+              />
+            </Pressable>
+          </Block>
+        ))}
       </ScrollView>
     );
   }
