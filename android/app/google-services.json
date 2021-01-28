@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "523068433208",
+    "project_id": "safesend-72ba0",
+    "storage_bucket": "safesend-72ba0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523068433208:android:eab3b8d381e15e254ed7cd",
+        "android_client_info": {
+          "package_name": "com.safesend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523068433208-5vh3td13g3mrudoe0p6nb9bsde33n165.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzNNCtGQZxfHOaOoPdDda4_-AhNUfS9SQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523068433208-5vh3td13g3mrudoe0p6nb9bsde33n165.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
