@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { Dimensions, StyleSheet, ScrollView, Pressable } from 'react-native';
+import { Dimensions, StyleSheet, ScrollView, Pressable, Text } from 'react-native';
+import {db, default as firebase} from './firebase';
 const { Block, Card } = require('galio-framework');
 
 const { width } = Dimensions.get('screen');
@@ -29,23 +30,44 @@ const cards = [
   },
   {
     id: 4,
-    title: 'poggers',
+    title: 'package-name3',
     caption: 'Last updated:\n9d ago',
-    location: 'idk',
+    location: 'Unavailable',
     status: false,
   },
 ];
 
-/*componentDidMount(){
-  backend calls for payload
-} */
 
 class Access extends React.Component {
+  state = {
+    items: []
+  };
+
+  componentDidMount() {
+    db.ref('/access').on('value', snapshot => {
+      const data = snapshot.val();
+      const items = Object.values(data);
+      this.setState({ items });
+      console.log(items);
+    });
+    /*
+    if (!firebase.apps.length) {
+      const app = firebase.initializeApp(firebaseConfig);
+      app.database().ref('access/').once('value').then(snapshot => {
+        this.state.test = snapshot.val();
+      });
+    }*/
+    /*
+    database.ref('access/').once('value').then(snapshot => {
+      this.state.test = snapshot.val();
+    });*/
+  }
+
   render() {
     const { navigation } = this.props;
     return (
       <ScrollView contentContainerStyle={styles.cards} backgroundColor="white">
-        {cards && cards.map(card => (
+        {this.state.items && this.state.items.map(card => (
           <Block flex space="between" key={`card-${card.id}`}>
             <Pressable onPress={() => navigation.navigate('Details', card)}>
               <Card
@@ -54,7 +76,7 @@ class Access extends React.Component {
                 shadowColor={'black'}
                 style={styles.card}
                 title={card.title}
-                caption={card.caption}
+                caption={card.caption.replace('\\n', '\n')}
                 location={card.location}
                 locationColor={card.status ? 'green' : 'red'}
               />
