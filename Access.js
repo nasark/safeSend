@@ -6,6 +6,7 @@ const { Block, Card } = require('galio-framework');
 
 const { width } = Dimensions.get('screen');
 // configured by backend
+/*
 const cards = [
   {
     id: 1,
@@ -35,7 +36,7 @@ const cards = [
     location: 'Unavailable',
     status: false,
   },
-];
+];*/
 
 
 class Access extends React.Component {
@@ -48,19 +49,7 @@ class Access extends React.Component {
       const data = snapshot.val();
       const items = Object.values(data);
       this.setState({ items });
-      console.log(items);
     });
-    /*
-    if (!firebase.apps.length) {
-      const app = firebase.initializeApp(firebaseConfig);
-      app.database().ref('access/').once('value').then(snapshot => {
-        this.state.test = snapshot.val();
-      });
-    }*/
-    /*
-    database.ref('access/').once('value').then(snapshot => {
-      this.state.test = snapshot.val();
-    });*/
   }
 
   render() {
