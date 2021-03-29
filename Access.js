@@ -45,6 +45,7 @@ class Access extends React.Component {
   };
 
   componentDidMount() {
+    //subscribe so data is updated as soon as arduino updates db
     db.ref('/access').on('value', snapshot => {
       const data = snapshot.val();
       const items = Object.values(data);
