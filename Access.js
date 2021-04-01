@@ -3,45 +3,33 @@ import React from 'react';
 import { Dimensions, StyleSheet, ScrollView, Pressable, Text } from 'react-native';
 import {db, default as firebase} from './firebase';
 const { Block, Card } = require('galio-framework');
-
+import notifee, {AndroidImportance} from '@notifee/react-native';
 const { width } = Dimensions.get('screen');
-// configured by backend
-/*
-const cards = [
-  {
-    id: 1,
-    title: 'package-name1',
-    caption: 'Last updated:\n15 minutes ago',
-    location: 'On the way',
-    status: true,
-  },
-  {
-    id: 2,
-    title: 'package-name2',
-    caption: 'Last updated:\n2d ago',
-    location: 'Delivered',
-    status: true,
-  },
-  {
-    id: 3,
-    title: 'package-name3',
-    caption: 'Last updated:\n7d ago\nTap for more details',
-    location: 'Package missing',
-    status: false,
-  },
-  {
-    id: 4,
-    title: 'package-name3',
-    caption: 'Last updated:\n9d ago',
-    location: 'Unavailable',
-    status: false,
-  },
-];*/
 
+//push notif handler
+async function onDisplayNotification() {
+  const channelId = await notifee.createChannel({
+    id: 'access',
+    name: 'Access Channel',
+    importance: AndroidImportance.HIGH,
+  });
+
+  // display a notification
+  await notifee.displayNotification({
+    title: 'Safe Accessed!',
+    body: 'A carrier tried accessing the vault.',
+    android: {
+      channelId,
+      importance: AndroidImportance.HIGH,
+      largeIcon: require('./assets/notif.png'), //Icon made by "https://www.flaticon.com/authors/prosymbols"
+    },
+  });
+}
 
 class Access extends React.Component {
   state = {
-    items: []
+    items: [],
+    notifFlag: false,
   };
 
   componentDidMount() {
@@ -50,7 +38,17 @@ class Access extends React.Component {
       const data = snapshot.val();
       const items = Object.values(data);
       this.setState({ items });
+      //send push notif
+      if (this.state.notifFlag){
+        onDisplayNotification();
+      }
+      this.setState({ notifFlag: true});
     });
+  }
+
+  componentWillUnmount(){
+    //unsubscribe
+    db.ref('/access').off('value');
   }
 
   render() {

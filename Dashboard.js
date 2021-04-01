@@ -19,21 +19,22 @@ class Dashboard extends React.Component {
   };
 
   componentDidMount() {
-    db.ref('/dashboard/success')
-      .once('value')
-      .then(snapshot => {
-        const success = snapshot.val();
-        this.setState({ success });
-      });
+    db.ref('/dashboard/success').on('value', snapshot => {
+      const success = snapshot.val();
+      this.setState({ success });
+    });
 
-    db.ref('/dashboard/fail')
-      .once('value')
-      .then(snapshot => {
-        const fail = snapshot.val();
-        this.setState({ fail });
-      });
+    db.ref('/dashboard/fail').on('value', snapshot => {
+      const fail = snapshot.val();
+      this.setState({ fail });
+    });
   }
 
+  componentWillUnmount(){
+    //unsubscribe
+    db.ref('/dashboard/success').off('value');
+    db.ref('/dashboard/fail').off('value');
+  }
   render() {
     //render nothing until data is fetched from db
     if (!this.state.success || !this.state.fail){
